@@ -30,25 +30,16 @@ class Animal:
 
 
 class Enclosure:
-    def __init__(self):
+    def __init__(self, initial_space=30):
         self.animals = []
-        self.dirt_level = 0  # Initialize dirt level
-        self.visitors = 0  # Initialize visitors
+        self.space = initial_space  # Inicialmente, cada recinto tem 30 metros quadrados
 
     def add_animal(self, animal):
-        self.animals.append(animal)
-        print(f"{animal.name} foi adicionado ao recinto.")
-
-    def feed_animals(self):
-        for animal in self.animals:
-            animal.feed(self.dirt_level)  # Pass enclosure dirt level to animal feed method
-            if animal.happy > 5:  # Optional: Reset happiness if it exceeds maximum
-                animal.happy = 5
-
-    def clean_enclosure(self):
-        self.animals = []
-        self.dirt_level = 0  # Reset dirt level when cleaning enclosure
-        print("O recinto foi limpo.")
+        if len(self.animals) * 30 >= self.space:
+            print("Não há espaço suficiente para adicionar este animal.")
+        else:
+            self.animals.append(animal)
+            print(f"{animal.name} foi adicionado ao enclosure.")
 
     def remove_animal(self, animal):
         if animal in self.animals:
@@ -56,25 +47,29 @@ class Enclosure:
             print(f"{animal.name} foi removido do enclosure.")
         else:
             print(f"{animal.name} não está neste enclosure.")
-    
+
+    def clean_enclosure(self):
+        self.animals = []
+        print("O enclosure foi limpo.")
+
     def calc_visitors(self):
         if not self.animals:
-            return 0, 0  # Retorna 0 visitantes e 0 dinheiro se o recinto estiver vazio
+            return 0  # Retorna 0 se o enclosure estiver vazio
 
         happy_total = sum(animal.happy for animal in self.animals)
         happy_avg = happy_total / len(self.animals)
 
         if happy_avg > 4:
-            self.visitors += 100  # Atrai 100 visitantes se a felicidade média for alta
-            money_earned = self.visitors * 10  # Ganha R$10 por visitante
+            return 100  # Atrai 100 visitantes se a felicidade média for alta
         elif happy_avg > 2:
-            self.visitors += 50  # Atrai 50 visitantes se a felicidade média for moderada
-            money_earned = self.visitors * 10  # Ganha R$10 por visitante
+            return 50  # Atrai 50 visitantes se a felicidade média for moderada
         else:
-            self.visitors += 10  # Atrai 10 visitantes se a felicidade média for baixa
-            money_earned = self.visitors * 10  # Ganha R$10 por visitante
-        
-        return self.visitors, money_earned
+            return 10  # Atrai 10 visitantes se a felicidade média for baixa
+
+    def increase_space(self, additional_space):
+        self.space += additional_space
+        print(f"O espaço do enclosure foi aumentado para {self.space} metros quadrados.")
+
 
     def __str__(self):
         return f"Recinto com {len(self.animals)} animais. Nível de sujeira: {self.dirt_level}"

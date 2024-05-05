@@ -58,10 +58,24 @@ class TestEnclosure(unittest.TestCase):
 
     def test_calc_visitors(self):
         enclosure = Enclosure()
-        enclosure.add_animal(Animal("Leão", "Felino", 4, 3))  # Add an animal to the enclosure
-        visitors, money_earned = enclosure.calc_visitors()
-        self.assertGreaterEqual(visitors, 0)  # Number of visitors should be greater than or equal to 0
-        self.assertGreaterEqual(money_earned, 0)  # Money earned should be greater than or equal to 0
+        num_visitors = enclosure.calc_visitors()
+        self.assertEqual(num_visitors, 0)  # Number of visitors should be 0 if there are no animals in the enclosure
+
+    def test_increase_space(self):
+        enclosure = Enclosure(initial_space=30)  # Create an enclosure with initial space of 30 square meters
+        animal1 = Animal("Leão", "Felino", 4, 3)
+        animal2 = Animal("Tigre", "Felino", 4, 3)
+        enclosure.add_animal(animal1)
+        enclosure.add_animal(animal2)
+
+        enclosure.increase_space(60)  # Increase space to 90 square meters
+        self.assertIn(animal1, enclosure.animals)  # Animal 1 should still be in the enclosure
+        self.assertNotIn(animal2, enclosure.animals)  # Animal 2 should not be in the enclosure anymore
+
+        animal3 = Animal("Pantera", "Felino", 4, 3)
+        enclosure.add_animal(animal3)
+        self.assertIn(animal3, enclosure.animals)  # Animal 3 should now be added as there is enough space
+
 
 if __name__ == '__main__':
     unittest.main()
