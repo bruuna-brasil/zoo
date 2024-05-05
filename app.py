@@ -13,5 +13,6 @@ if __name__ == "__main__":
     leo.feed(enclosure_leoes.dirt_level)
 
     # Calculando visitantes
-    num_visitors = enclosure_leoes.calc_visitors()
-    print(f"Número de visitantes: {num_visitors}")
+    visitors, money_earned = enclosure_leoes.calc_visitors()
+
+    print(f"Número de visitantes: {visitors} Dinheiro arrecadado: {money_earned}")

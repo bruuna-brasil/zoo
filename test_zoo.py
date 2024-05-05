@@ -56,5 +56,12 @@ class TestEnclosure(unittest.TestCase):
         enclosure.clean_enclosure()
         self.assertEqual(len(enclosure.animals), 0)  # Enclosure should be empty after cleaning
 
+    def test_calc_visitors(self):
+        enclosure = Enclosure()
+        enclosure.add_animal(Animal("Leão", "Felino", 4, 3))  # Add an animal to the enclosure
+        visitors, money_earned = enclosure.calc_visitors()
+        self.assertGreaterEqual(visitors, 0)  # Number of visitors should be greater than or equal to 0
+        self.assertGreaterEqual(money_earned, 0)  # Money earned should be greater than or equal to 0
+
 if __name__ == '__main__':
     unittest.main()

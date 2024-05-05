@@ -33,6 +33,7 @@ class Enclosure:
     def __init__(self):
         self.animals = []
         self.dirt_level = 0  # Initialize dirt level
+        self.visitors = 0  # Initialize visitors
 
     def add_animal(self, animal):
         self.animals.append(animal)
@@ -58,18 +59,22 @@ class Enclosure:
     
     def calc_visitors(self):
         if not self.animals:
-            return 0  # Returns 0 if the enclosure is empty
+            return 0, 0  # Retorna 0 visitantes e 0 dinheiro se o recinto estiver vazio
 
         happy_total = sum(animal.happy for animal in self.animals)
         happy_avg = happy_total / len(self.animals)
 
         if happy_avg > 4:
-            return 100  # Attracts 100 visitors if the average happiness is high
+            self.visitors += 100  # Atrai 100 visitantes se a felicidade média for alta
+            money_earned = self.visitors * 10  # Ganha R$10 por visitante
         elif happy_avg > 2:
-            return 50  # Attracts 50 visitors if the average happiness is moderate
+            self.visitors += 50  # Atrai 50 visitantes se a felicidade média for moderada
+            money_earned = self.visitors * 10  # Ganha R$10 por visitante
         else:
-            return 10  # Attracts 10 visitors if the average happiness is low
-
+            self.visitors += 10  # Atrai 10 visitantes se a felicidade média for baixa
+            money_earned = self.visitors * 10  # Ganha R$10 por visitante
+        
+        return self.visitors, money_earned
 
     def __str__(self):
         return f"Recinto com {len(self.animals)} animais. Nível de sujeira: {self.dirt_level}"
