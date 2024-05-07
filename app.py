@@ -1,18 +1,28 @@
+from flask import Flask, request, jsonify
 from zoo import Animal, Enclosure
 
-if __name__ == "__main__":
-    # Criando um animal
-    leo = Animal("Leão", "Felino", 80, 50)  # Adicionando o argumento hungry
+app = Flask(__name__)
+enclosure = Enclosure()
 
-    # Criando um recinto e adicionando o leão
-    enclosure_leoes = Enclosure()
-    enclosure_leoes.add_animal(leo)
+@app.route('/add_animal', methods=['POST'])
+def add_animal():
+    data = request.get_json()
+    animal = Animal(data['name'], data['species'], data['happy'], data['hungry'])
+    enclosure.add_animal(animal)
+    return jsonify({'message': 'Animal added successfully'}), 200
 
-    # Alimentando o leão
-    enclosure_leoes.dirt_level = 4  # Set dirt level below threshold
-    leo.feed(enclosure_leoes.dirt_level)
+@app.route('/feed', methods=['POST'])
+def feed_animal():
+    data = request.get_json()
+    animal_name = data['name']
+    animal = next((a for a in enclosure.animals if a.name == animal_name), None)
+    if animal:
+        animal.feed()
+        return jsonify({'message': f'{animal_name} fed successfully'}), 200
+    else:
+        return jsonify({'error': 'Animal not found'}), 404
 
-    # Calculando visitantes
-    visitors, money_earned = enclosure_leoes.calc_visitors()
+# Outros endpoints da API...
 
-    print(f"Número de visitantes: {visitors} Dinheiro arrecadado: {money_earned}")
+if __name__ == '__main__':
+    app.run(debug=True)

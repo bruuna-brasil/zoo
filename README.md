@@ -19,9 +19,9 @@ O projeto Zoo é uma simulação de um zoológico virtual, desenvolvido em Pytho
 **Estrutura do Projeto:**
 
 - **zoo.py:** Este arquivo contém as definições das classes Animal e Recinto, juntamente com seus métodos e funcionalidades.
-- **test_zoo.py:** É o arquivo de teste unitário, onde são realizados testes para garantir o funcionamento correto das funções em cada classe.
-- **app.py:** O arquivo de aplicação principal, onde são testadas as principais funcionalidades do sistema como um todo, como criar animais, gerenciar recintos e atrair visitantes.
-
+- **test_zoo.py:** É o arquivo de teste unitário, onde são realizados testes para garantir o funcionamento correto das funções em cada classe, ainda neste arquivo é testado o sistema como um todo.
+- **app.py:** O arquivo de implementação da API
+  
 **Executando os Testes:**
 
 Para executar os testes unitários, basta digitar "python test_zoo.py" no terminal. Isso garantirá que todas as funcionalidades individuais das classes sejam verificadas quanto à sua correta implementação.
